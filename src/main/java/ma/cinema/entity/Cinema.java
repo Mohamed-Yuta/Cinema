@@ -19,7 +19,7 @@ public class Cinema {
     private Long latitude , longtitude , atitude ;
     private int nombreSalles ;
 
-    @ManyToOne()
+    @ManyToOne
     private Ville ville ;
     @OneToMany(mappedBy = "cinema" ,fetch = FetchType.LAZY)
     List<Salle> salles ;

@@ -22,6 +22,7 @@ public class Salle {
     private Cinema cinema ;
     @OneToMany(mappedBy = "salle" , fetch = FetchType.LAZY)
     private List<Place> places ;
-    @ManyToMany()
-    List<Film> films ;
+    @OneToMany(mappedBy = "salle")
+    List<ProjectionFim> list ;
+
 }

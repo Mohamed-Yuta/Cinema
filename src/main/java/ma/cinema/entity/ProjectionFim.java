@@ -21,4 +21,10 @@ public class ProjectionFim {
 
     @OneToMany(mappedBy = "projectionFim")
     List<Ticket> tickets ;
+    @ManyToOne
+    private Salle salle ;
+    @ManyToOne
+    private  Film film ;
+    @OneToOne
+    private Seance seance ;
 }

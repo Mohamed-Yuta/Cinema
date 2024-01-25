@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor
 public class Film {
@@ -21,6 +23,8 @@ public class Film {
 
     @ManyToOne
     private Categorie categorie ;
+    @OneToMany(mappedBy = "film")
+    List<ProjectionFim> list ;
 
 
 }
