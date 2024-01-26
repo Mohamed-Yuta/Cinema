@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.Generated;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,5 +23,5 @@ public class Cinema {
     @ManyToOne
     private Ville ville ;
     @OneToMany(mappedBy = "cinema" ,fetch = FetchType.LAZY)
-    List<Salle> salles ;
+    List<Salle> salles = new ArrayList<>();
 }
