@@ -122,12 +122,37 @@ public class InitServiceImpl implements InitService{
 
     @Override
     public void initProjectionFilm() {
-        seanceRepository.findAll().stream().forEach(seance -> {
+        salleRepository.findAll().stream().forEach(salle -> {
+            filmRepository.findAll().stream().forEach(film -> {
+                seanceRepository.findAll().stream().forEach(seance -> {
+                    ProjectionFim projectionFim = new ProjectionFim();
+                    projectionFim.setPrix(50.0); // Set the price as needed
+                    projectionFim.setDateProjection(new Date());
+                    projectionFim.setSalle(salle);
+                    projectionFim.setFilm(film);
+                    projectionFim.setSeance(seance);
+
+                    projectionFilmRepository.save(projectionFim);
+                });
+            });
         });
     }
 
     @Override
     public void initTickets() {
+        projectionFilmRepository.findAll().stream().forEach(projectionFim -> {
+            salleRepository.findAll().stream().forEach(salle -> {
+                for (Place place : salle.getPlaces()) {
+                    Ticket ticket = new Ticket();
+                    ticket.setNomClient("Client" + new Random().nextInt(1000));
+                    ticket.setPrix(projectionFim.getPrix());
+                    ticket.setCodePayement(new Random().nextInt(10000));
+                    ticket.setPlace(place);
+                    ticket.setProjectionFim(projectionFim);
+
+                    ticketRepository.save(ticket);}
+            });
+        });
 
     }
 
