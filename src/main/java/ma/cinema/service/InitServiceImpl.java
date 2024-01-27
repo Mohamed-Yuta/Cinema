@@ -2,12 +2,11 @@ package ma.cinema.service;
 
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import ma.cinema.entity.Cinema;
-import ma.cinema.entity.Salle;
-import ma.cinema.entity.Ville;
+import ma.cinema.entity.*;
 import ma.cinema.repository.*;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.Random;
 
 @Service
@@ -19,6 +18,10 @@ public class InitServiceImpl implements InitService{
     private final FilmRepository filmRepository ;
     private final CategorieRepository categorieRepository ;
     private final SalleRepository salleRepository ;
+    private final PlaceRepository placeRepository ;
+    private final SeanceRepository seanceRepository ;
+    private final ProjectionFilmRepository projectionFilmRepository;
+    private final TicketRepository ticketRepository ;
 
 
     @Override
@@ -74,17 +77,53 @@ public class InitServiceImpl implements InitService{
 
     @Override
     public void initPlaces() {
-
+        salleRepository.findAll().stream().forEach(salle -> {
+            for (int i =1 ; i<= salle.getNombrePlaces();i++) {
+                Place place = new Place();
+                place.setNumero(i);
+                place.setSalle(salle);
+                placeRepository.save(place);
+                salle.getPlaces().add(place);
+            }
+        });
+    }
+    @Override
+    public void initCategories() {
+        Categorie categorie = new Categorie();
+        categorie.setName("Action");
+        categorieRepository.save(categorie);
+        Categorie categorie1 = new Categorie();
+        categorie1.setName("Drama");
+        categorieRepository.save(categorie1);
+        Categorie categorie2 = new Categorie();
+        categorie2.setName("Romance");
+        categorieRepository.save(categorie2);
     }
 
     @Override
     public void initFilms() {
-
+        categorieRepository.findAll().stream().forEach(categorie -> {
+            Film film = new Film();
+            film.setTitre("Good will Hunting");
+            film.setCategorie(categorie);
+            categorie.getFilms().add(film);
+            filmRepository.save(film);
+            categorieRepository.save(categorie);
+        });
+    }
+    @Override
+    public void initSeances() {
+        for(int i =1 ; i<15;i++){
+            Seance seance = new Seance();
+            seance.setHeureDebut(new Date());
+            seanceRepository.save(seance);
+        }
     }
 
     @Override
     public void initProjectionFilm() {
-
+        seanceRepository.findAll().stream().forEach(seance -> {
+        });
     }
 
     @Override
@@ -92,13 +131,7 @@ public class InitServiceImpl implements InitService{
 
     }
 
-    @Override
-    public void initSeances() {
 
-    }
 
-    @Override
-    public void initCategories() {
 
-    }
 }
