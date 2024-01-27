@@ -3,6 +3,7 @@ package ma.cinema.service;
 import lombok.AllArgsConstructor;
 import ma.cinema.entity.Categorie;
 import ma.cinema.entity.Cinema;
+import ma.cinema.entity.Film;
 import ma.cinema.entity.Ville;
 import ma.cinema.repository.*;
 
@@ -30,6 +31,20 @@ public class CinemaService {
         ville.getCinemas().add(cinema);
         villeRepository.save(ville);
         return cinemaRepository.save(cinema);
+    }
+    Categorie saveCategorie(String name ) {
+        Categorie categorie = new Categorie();
+        categorie.setName(name);
+        return categorieRepository.save(categorie);
+    }
+    Film saveFilm(String categ , String name){
+        Categorie categorie = categorieRepository.findByName(name);
+        Film film = new Film();
+        film.setCategorie(categorie);
+        film.setTitre(name);
+        categorie.getFilms().add(film);
+        categorieRepository.save(categorie);
+        return filmRepository.save(film);
     }
 
 
