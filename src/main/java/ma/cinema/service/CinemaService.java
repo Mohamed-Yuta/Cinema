@@ -1,10 +1,7 @@
 package ma.cinema.service;
 
 import lombok.AllArgsConstructor;
-import ma.cinema.entity.Categorie;
-import ma.cinema.entity.Cinema;
-import ma.cinema.entity.Film;
-import ma.cinema.entity.Ville;
+import ma.cinema.entity.*;
 import ma.cinema.repository.*;
 
 @AllArgsConstructor
@@ -15,6 +12,7 @@ public class CinemaService {
     private final FilmRepository filmRepository ;
     private final CategorieRepository categorieRepository;
     private final PlaceRepository placeRepository ;
+    private final SalleRepository salleRepository ;
 
     Ville saveVille(String name ) {
         Ville ville = new Ville();
@@ -45,6 +43,16 @@ public class CinemaService {
         categorie.getFilms().add(film);
         categorieRepository.save(categorie);
         return filmRepository.save(film);
+    }
+    Salle saveSalle(String name , String cinema , int nbr){
+        Cinema cinema1 = cinemaRepository.findByName(cinema);
+        Salle salle = new Salle();
+        salle.setCinema(cinema1);
+        salle.setNombrePlaces(nbr);
+        salle.setName(name);
+        cinema1.getSalles().add(salle);
+        cinemaRepository.save(cinema1);
+        return salleRepository.save(salle);
     }
 
 
