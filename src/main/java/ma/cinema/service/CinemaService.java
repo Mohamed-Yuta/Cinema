@@ -101,5 +101,25 @@ public class CinemaService {
 
         return projectionFilmRepository.save(projectionFim);
     }
+    Ticket saveTicket(String nomClient, double prix, int codePayement, Long placeId, Long projectionFimId) {
+        Place place = placeRepository.findById(placeId).orElseThrow(() -> new RuntimeException("Place not found"));
+        ProjectionFim projectionFim = projectionFilmRepository.findById(projectionFimId).orElseThrow(() -> new RuntimeException("ProjectionFim not found"));
+
+        Ticket ticket = new Ticket();
+        ticket.setNomClient(nomClient);
+        ticket.setPrix(prix);
+        ticket.setCodePayement(codePayement);
+        ticket.setPlace(place);
+        ticket.setProjectionFim(projectionFim);
+
+        place.getTickets().add(ticket);
+        projectionFim.getTickets().add(ticket);
+
+        placeRepository.save(place);
+        projectionFilmRepository.save(projectionFim);
+
+        return ticketRepository.save(ticket);
+    }
+
 
 }
