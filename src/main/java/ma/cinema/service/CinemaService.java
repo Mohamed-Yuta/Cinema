@@ -120,6 +120,8 @@ public class CinemaService {
 
         return ticketRepository.save(ticket);
     }
+    //fot Controller
+
 
 
 }
